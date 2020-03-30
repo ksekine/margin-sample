@@ -8,7 +8,12 @@ import {
   RadioGroup,
   Button
  } from '@material-ui/core';
+ import styled from 'styled-components';
  import Chart from '../molecules/Chart';
+
+const Title = styled.h1`
+  margin: 3rem auto;
+`;
 
 type FormData = {
   depositeMargin: number
@@ -58,7 +63,7 @@ const Margin: React.FC = () => {
 
   return (
     <>
-      <h1>証拠金維持率計算</h1>
+      <Title>証拠金維持率計算</Title>
       <Chart data={data} />
       <form onSubmit={onSubmit}>
 
