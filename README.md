@@ -1,8 +1,18 @@
-# FXサポートプロジェクト
+# FX support project
 
-## 証拠金計算プログラム
+## Local environment
 
-## 参考
+```
+npm start
+```
+
+## Deploy
+
+```
+npm deploy
+```
+
+## Reference
 
 * [React Hook Form](https://react-hook-form.com/jp/)
 * [React Hook Form入門その１（導入編）](https://www.tech-note.info/entry/react-hook-form-01)
