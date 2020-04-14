@@ -1,19 +1,12 @@
-import React from 'react';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-} from 'recharts';
+import React from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 type Data = {
-  currentRate: number
-  marginMaintenanceRate: number
-}
+  currentRate: number;
+  marginMaintenanceRate: number;
+};
 
-const Chart: React.FC<{data: Data[]}> = props => {
+const Chart: React.FC<{ data: Data[] }> = (props) => {
   return (
     <>
       <BarChart
@@ -30,6 +23,6 @@ const Chart: React.FC<{data: Data[]}> = props => {
       </BarChart>
     </>
   );
-}
+};
 
 export default Chart;

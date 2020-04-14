@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Navigation: React.FC = () => {
   return (
@@ -10,6 +10,6 @@ const Navigation: React.FC = () => {
       </ul>
     </nav>
   );
-}
+};
 
 export default Navigation;
