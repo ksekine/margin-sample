@@ -9,115 +9,175 @@ import {
   Button,
 } from "@material-ui/core";
 import styled from "styled-components";
-import Chart from "../molecules/Chart";
+import TableContent from "../molecules/TableContent";
 
 const Title = styled.h1`
   margin: 3rem auto;
+  font-weight: 500;
+`;
+
+const Form = styled.form`
+  margin-top: 50px;
+  margin-bottom: 50px;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const FieldContainer = styled.div`
+  margin-right: 30px;
+  margin-bottom: 30px;
+`;
+
+const ErrorContainer = styled.div`
+  font-size: 12px;
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const TableContainer = styled.div`
+  margin-bottom: 50px;
 `;
 
 type FormData = {
   depositeMargin: number;
   executionRate: number;
-  transactionQuantity: number;
+  quantity: number;
   leverage: number;
   position: string;
 };
 
-type Data = {
-  currentRate: number;
-  marginMaintenanceRate: number;
-};
+interface Data {
+  marginRate: number;
+  exchangeRate: number;
+  profitAndLoss: number;
+}
 
 const radioList: string[] = ["買い", "売り"];
 
+const calcExchangeRate = (
+  position: string,
+  marginRate: number,
+  leverage: number,
+  executionRate: number,
+  depositeMargin: number,
+  quantity: number
+) => {
+  let exchangeRate: number;
+  let profitAndLoss: number;
+
+  if (position === radioList[0]) {
+    exchangeRate =
+      (1.0 + marginRate / leverage) * executionRate - depositeMargin / quantity;
+    profitAndLoss = (exchangeRate - executionRate) * quantity;
+  } else {
+    exchangeRate =
+      (1.0 - marginRate / leverage) * executionRate + depositeMargin / quantity;
+    profitAndLoss = (executionRate - exchangeRate) * quantity;
+  }
+
+  return {
+    exchangeRate,
+    profitAndLoss,
+  };
+};
+
 const Margin: React.FC = () => {
-  const marginMaintenanceRateList = [0.3, 0.5, 1.0, 1.5, 2.0, 4.0, 5.0];
+  const marginRateList = [0.3, 0.5, 1.0, 1.5, 2.0, 4.0, 5.0];
   const [data, setData] = useState<Data[]>([]);
   const { register, handleSubmit, control, errors } = useForm<FormData>();
   const onSubmit = handleSubmit(
-    ({
-      depositeMargin,
-      executionRate,
-      transactionQuantity,
-      leverage,
-      position,
-    }) => {
+    ({ depositeMargin, executionRate, quantity, leverage, position }) => {
       const tmpData: Data[] = [];
-      let rate: number;
-      marginMaintenanceRateList.map((marginMaintenanceRate) => {
-        if (position === radioList[0]) {
-          rate =
-            (1.0 + marginMaintenanceRate / leverage) * executionRate -
-            depositeMargin / transactionQuantity;
-        } else if (position === radioList[1]) {
-          rate =
-            (1.0 - marginMaintenanceRate / leverage) * executionRate +
-            depositeMargin / transactionQuantity;
-        } else {
-          rate = 1.0;
-        }
+      marginRateList.map((marginRate) => {
+        const { exchangeRate, profitAndLoss } = calcExchangeRate(
+          position,
+          marginRate,
+          leverage,
+          executionRate,
+          depositeMargin,
+          quantity
+        );
+
         tmpData.push({
-          currentRate: rate,
-          marginMaintenanceRate: marginMaintenanceRate,
+          marginRate,
+          exchangeRate,
+          profitAndLoss,
         });
       });
 
       setData(tmpData);
-      console.log(tmpData);
     }
   );
 
   return (
     <>
       <Title>証拠金維持率計算</Title>
-      <form onSubmit={onSubmit}>
-        <div>
-          <TextField
-            inputRef={register({ required: true })}
-            label="預入証拠金"
-            name="depositeMargin"
-          />
-          {errors.depositeMargin && <div>This field is required</div>}
-        </div>
+      <Form onSubmit={onSubmit}>
+        <FormContainer>
+          <FieldContainer>
+            <TextField
+              inputRef={register({ required: true })}
+              label="預入証拠金"
+              name="depositeMargin"
+              variant="outlined"
+            />
+            <ErrorContainer>
+              {errors.depositeMargin && <div>This field is required</div>}
+            </ErrorContainer>
+          </FieldContainer>
 
-        <div>
-          <TextField
-            inputRef={register({ required: true })}
-            label="約定レート"
-            name="executionRate"
-          />
-          {errors.executionRate && <div>This field is required</div>}
-        </div>
+          <FieldContainer>
+            <TextField
+              inputRef={register({ required: true })}
+              label="約定レート"
+              name="executionRate"
+              variant="outlined"
+            />
+            <ErrorContainer>
+              {errors.executionRate && <div>This field is required</div>}
+            </ErrorContainer>
+          </FieldContainer>
 
-        <div>
-          <TextField
-            inputRef={register({ required: true })}
-            label="取引数量"
-            name="transactionQuantity"
-          />
-          {errors.transactionQuantity && <div>This field is required</div>}
-        </div>
+          <FieldContainer>
+            <TextField
+              inputRef={register({ required: true })}
+              label="取引数量"
+              name="quantity"
+              variant="outlined"
+            />
+            <ErrorContainer>
+              {errors.quantity && <div>This field is required</div>}
+            </ErrorContainer>
+          </FieldContainer>
 
-        <div>
-          <TextField
-            inputRef={register({ required: true })}
-            label="レバレッジ"
-            name="leverage"
-          />
-          {errors.leverage && <div>This field is required</div>}
-        </div>
+          <FieldContainer>
+            <TextField
+              inputRef={register({ required: true })}
+              label="レバレッジ"
+              name="leverage"
+              variant="outlined"
+            />
+            <ErrorContainer>
+              {errors.leverage && <div>This field is required</div>}
+            </ErrorContainer>
+          </FieldContainer>
+        </FormContainer>
 
-        <div>
+        <FieldContainer>
           <FormLabel>ポジション</FormLabel>
           <Controller
             name="position"
             as={
-              <RadioGroup>
+              <RadioGroup row>
                 {radioList.map((item) => (
                   <FormControlLabel
                     key={item}
                     value={item}
-                    control={<Radio />}
+                    control={<Radio color="default" />}
                     label={item}
                   />
                 ))}
@@ -126,14 +186,16 @@ const Margin: React.FC = () => {
             control={control}
             defaultValue={radioList[0]}
           />
-        </div>
+        </FieldContainer>
 
         <Button type="submit" variant="outlined" color="primary">
           計算
         </Button>
-      </form>
+      </Form>
 
-      <Chart data={data} />
+      <TableContainer>
+        <TableContent rows={data} />
+      </TableContainer>
     </>
   );
 };

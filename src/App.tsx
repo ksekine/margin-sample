@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Enclosure = styled.div`
   display: grid;
   position: relative;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 240px 1fr;
   grid-template-rows: auto;
 `;
 
@@ -14,7 +14,7 @@ const Nav = styled.div`
   display: block;
   position: fixed;
   top: 0;
-  width: 280px;
+  width: 240px;
   overflow-y: auto;
   height: 100%;
   background-color: #05264c;
