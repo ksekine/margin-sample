@@ -71,12 +71,20 @@ const calcExchangeRate = (
 
   if (position === radioList[0]) {
     exchangeRate =
-      (1.0 + marginRate / leverage) * executionRate - depositeMargin / quantity;
-    profitAndLoss = (exchangeRate - executionRate) * quantity;
+      Math.round(
+        ((1.0 + marginRate / leverage) * executionRate -
+          depositeMargin / quantity) *
+          100
+      ) / 100;
+    profitAndLoss = Math.floor((exchangeRate - executionRate) * quantity);
   } else {
     exchangeRate =
-      (1.0 - marginRate / leverage) * executionRate + depositeMargin / quantity;
-    profitAndLoss = (executionRate - exchangeRate) * quantity;
+      Math.round(
+        ((1.0 - marginRate / leverage) * executionRate +
+          depositeMargin / quantity) *
+          100
+      ) / 100;
+    profitAndLoss = Math.floor((executionRate - exchangeRate) * quantity);
   }
 
   return {
@@ -86,7 +94,7 @@ const calcExchangeRate = (
 };
 
 const Margin: React.FC = () => {
-  const marginRateList = [0.3, 0.5, 1.0, 1.5, 2.0, 4.0, 5.0];
+  const marginRateList = [0.3, 0.5, 1.0, 2.0];
   const [data, setData] = useState<Data[]>([]);
   const { register, handleSubmit, control, errors } = useForm<FormData>();
   const onSubmit = handleSubmit(

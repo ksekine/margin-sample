@@ -19,7 +19,7 @@ type Props = {
 
 const TableContent: React.FC<Props> = (props: Props) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
