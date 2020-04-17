@@ -38,13 +38,25 @@ const ErrorContainer = styled.div`
   margin-bottom: 10px;
 `;
 
+const RequiredContainer = styled.div`
+  display: inline-flex;
+  border: solid 1px rgba(224, 224, 224, 1);
+  border-radius: 5px;
+  padding: 30px 50px;
+  margin-bottom: 30px;
+`;
+
+const RequiredText = styled.div`
+  margin-right: 100px;
+`;
+
 const TableContainer = styled.div`
   margin-bottom: 50px;
 `;
 
 type FormData = {
   depositeMargin: number;
-  executionRate: number;
+  execRate: number;
   quantity: number;
   leverage: number;
   position: string;
@@ -62,7 +74,7 @@ const calcExchangeRate = (
   position: string,
   marginRate: number,
   leverage: number,
-  executionRate: number,
+  execRate: number,
   depositeMargin: number,
   quantity: number
 ) => {
@@ -72,19 +84,17 @@ const calcExchangeRate = (
   if (position === radioList[0]) {
     exchangeRate =
       Math.round(
-        ((1.0 + marginRate / leverage) * executionRate -
-          depositeMargin / quantity) *
+        ((1.0 + marginRate / leverage) * execRate - depositeMargin / quantity) *
           100
       ) / 100;
-    profitAndLoss = Math.floor((exchangeRate - executionRate) * quantity);
+    profitAndLoss = Math.floor((exchangeRate - execRate) * quantity);
   } else {
     exchangeRate =
       Math.round(
-        ((1.0 - marginRate / leverage) * executionRate +
-          depositeMargin / quantity) *
+        ((1.0 - marginRate / leverage) * execRate + depositeMargin / quantity) *
           100
       ) / 100;
-    profitAndLoss = Math.floor((executionRate - exchangeRate) * quantity);
+    profitAndLoss = Math.floor((execRate - exchangeRate) * quantity);
   }
 
   return {
@@ -95,17 +105,23 @@ const calcExchangeRate = (
 
 const Margin: React.FC = () => {
   const marginRateList = [0.3, 0.5, 1.0, 2.0];
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[]>([
+    { marginRate: 0.3, exchangeRate: -1, profitAndLoss: -1 },
+    { marginRate: 0.5, exchangeRate: -1, profitAndLoss: -1 },
+    { marginRate: 1.0, exchangeRate: -1, profitAndLoss: -1 },
+    { marginRate: 2.0, exchangeRate: -1, profitAndLoss: -1 },
+  ]);
+  const [required, setRequired] = useState<number>(0);
   const { register, handleSubmit, control, errors } = useForm<FormData>();
   const onSubmit = handleSubmit(
-    ({ depositeMargin, executionRate, quantity, leverage, position }) => {
+    ({ depositeMargin, execRate, quantity, leverage, position }) => {
       const tmpData: Data[] = [];
       marginRateList.map((marginRate) => {
         const { exchangeRate, profitAndLoss } = calcExchangeRate(
           position,
           marginRate,
           leverage,
-          executionRate,
+          execRate,
           depositeMargin,
           quantity
         );
@@ -116,8 +132,10 @@ const Margin: React.FC = () => {
           profitAndLoss,
         });
       });
-
       setData(tmpData);
+
+      const req: number = Math.ceil((execRate * quantity) / leverage);
+      setRequired(req);
     }
   );
 
@@ -132,9 +150,10 @@ const Margin: React.FC = () => {
               label="預入証拠金"
               name="depositeMargin"
               variant="outlined"
+              type="number"
             />
             <ErrorContainer>
-              {errors.depositeMargin && <div>This field is required</div>}
+              {errors.depositeMargin && <div>数値を入力してください</div>}
             </ErrorContainer>
           </FieldContainer>
 
@@ -142,11 +161,12 @@ const Margin: React.FC = () => {
             <TextField
               inputRef={register({ required: true })}
               label="約定レート"
-              name="executionRate"
+              name="execRate"
               variant="outlined"
+              type="number"
             />
             <ErrorContainer>
-              {errors.executionRate && <div>This field is required</div>}
+              {errors.execRate && <div>数値を入力してください</div>}
             </ErrorContainer>
           </FieldContainer>
 
@@ -156,9 +176,10 @@ const Margin: React.FC = () => {
               label="取引数量"
               name="quantity"
               variant="outlined"
+              type="number"
             />
             <ErrorContainer>
-              {errors.quantity && <div>This field is required</div>}
+              {errors.quantity && <div>数値を入力してください</div>}
             </ErrorContainer>
           </FieldContainer>
 
@@ -168,9 +189,10 @@ const Margin: React.FC = () => {
               label="レバレッジ"
               name="leverage"
               variant="outlined"
+              type="number"
             />
             <ErrorContainer>
-              {errors.leverage && <div>This field is required</div>}
+              {errors.leverage && <div>数値を入力してください</div>}
             </ErrorContainer>
           </FieldContainer>
         </FormContainer>
@@ -196,10 +218,15 @@ const Margin: React.FC = () => {
           />
         </FieldContainer>
 
-        <Button type="submit" variant="outlined" color="primary">
+        <Button type="submit" variant="outlined" color="primary" size="large">
           計算
         </Button>
       </Form>
+
+      <RequiredContainer>
+        <RequiredText>取引必要証拠金</RequiredText>
+        <div>{required > 0 ? required.toLocaleString() : "-"} 円</div>
+      </RequiredContainer>
 
       <TableContainer>
         <TableContent rows={data} />

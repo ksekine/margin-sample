@@ -5,7 +5,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import styled from "styled-components";
+
+const StyledCell = styled(TableCell)`
+  font-size: 1rem;
+`;
 
 interface Data {
   marginRate: number;
@@ -23,18 +27,26 @@ const TableContent: React.FC<Props> = (props: Props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>証拠金維持率</TableCell>
-            <TableCell>レート</TableCell>
-            <TableCell>損益額</TableCell>
+            <StyledCell>証拠金維持率</StyledCell>
+            <StyledCell>レート</StyledCell>
+            <StyledCell>損益額</StyledCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.rows.map((row) => {
             return (
               <TableRow key={row.marginRate}>
-                <TableCell>{row.marginRate * 100} %</TableCell>
-                <TableCell>{row.exchangeRate}</TableCell>
-                <TableCell>{row.profitAndLoss}</TableCell>
+                <StyledCell>{row.marginRate * 100} %</StyledCell>
+                <StyledCell>
+                  {row.exchangeRate >= 0
+                    ? row.exchangeRate.toLocaleString()
+                    : "-"}
+                </StyledCell>
+                <StyledCell>
+                  {row.exchangeRate >= 0
+                    ? row.profitAndLoss.toLocaleString()
+                    : "-"}
+                </StyledCell>
               </TableRow>
             );
           })}

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ProjectName = styled.h2`
   font-weight: 500;
@@ -23,9 +24,12 @@ const Navigation: React.FC = () => {
       <ProjectName>FX support</ProjectName>
       <nav>
         <Ul>
-          <List>証拠金維持率計算</List>
-          <List>証拠金維持率計算</List>
-          <List>証拠金維持率計算</List>
+          <List>
+            <Link to="/margin-sample">証拠金維持率計算</Link>
+          </List>
+          <List>
+            <Link to="/margin-sample/document">計算方法</Link>
+          </List>
         </Ul>
       </nav>
     </>
