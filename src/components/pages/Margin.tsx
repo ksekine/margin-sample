@@ -10,14 +10,21 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import TableContent from "../molecules/TableContent";
+import { device } from "../../styles";
 
 const Title = styled.h1`
-  margin: 3rem auto;
+  margin-top: 0px;
+  margin-bottom: 30px;
   font-weight: 500;
+  font-size: 28px;
+
+  @media ${device.tablet} {
+    font-size: 32px;
+    margin-bottom: 50px;
+  }
 `;
 
 const Form = styled.form`
-  margin-top: 50px;
   margin-bottom: 50px;
 `;
 
@@ -27,8 +34,12 @@ const FormContainer = styled.div`
 `;
 
 const FieldContainer = styled.div`
-  margin-right: 30px;
-  margin-bottom: 30px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  @media ${device.laptop} {
+    margin-bottom: 30px;
+  }
 `;
 
 const ErrorContainer = styled.div`
@@ -39,15 +50,35 @@ const ErrorContainer = styled.div`
 `;
 
 const RequiredContainer = styled.div`
-  display: inline-flex;
+  display: flex;
   border: solid 1px rgba(224, 224, 224, 1);
   border-radius: 5px;
-  padding: 30px 50px;
+  padding: 30px 16px;
   margin-bottom: 30px;
+  font-size: 14px;
+
+  @media ${device.tablet} {
+    display: inline-flex;
+    font-size: 1rem;
+  }
 `;
 
 const RequiredText = styled.div`
-  margin-right: 100px;
+  width: 100%;
+
+  @media ${device.tablet} {
+    margin-right: 100px;
+    width: auto;
+  }
+`;
+
+const RequiredNum = styled.div`
+  width: 100%;
+  text-align: right;
+
+  @media ${device.tablet} {
+    width: auto;
+  }
 `;
 
 const TableContainer = styled.div`
@@ -225,7 +256,9 @@ const Margin: React.FC = () => {
 
       <RequiredContainer>
         <RequiredText>取引必要証拠金</RequiredText>
-        <div>{required > 0 ? required.toLocaleString() : "-"} 円</div>
+        <RequiredNum>
+          {required > 0 ? required.toLocaleString() : "-"} 円
+        </RequiredNum>
       </RequiredContainer>
 
       <TableContainer>

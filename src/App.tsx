@@ -50,12 +50,10 @@ const Main = styled.main`
 `;
 
 const MainContainer = styled.div`
-  margin-right: 16px;
-  margin-left: 16px;
+  padding: 30px 16px;
 
   @media ${device.laptop} {
-    margin-left: 40px;
-    margin-right: 40px;
+    padding: 40px;
   }
 `;
 

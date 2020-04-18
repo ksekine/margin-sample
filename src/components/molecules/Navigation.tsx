@@ -92,10 +92,14 @@ const Navigation: React.FC = () => {
       <Nav open={open}>
         <Ul>
           <List>
-            <Link to="/margin-sample">証拠金維持率計算</Link>
+            <Link to="/margin-sample" onClick={onClick}>
+              証拠金維持率計算
+            </Link>
           </List>
           <List>
-            <Link to="/margin-sample/document">計算方法</Link>
+            <Link to="/margin-sample/document" onClick={onClick}>
+              計算方法
+            </Link>
           </List>
         </Ul>
       </Nav>

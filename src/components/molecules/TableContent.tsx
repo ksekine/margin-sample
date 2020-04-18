@@ -6,9 +6,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import styled from "styled-components";
+import { device } from "../../styles";
 
 const StyledCell = styled(TableCell)`
-  font-size: 1rem;
+  font-size: 14px;
+
+  @media ${device.tablet} {
+    font-size: 1rem;
+  }
 `;
 
 interface Data {
