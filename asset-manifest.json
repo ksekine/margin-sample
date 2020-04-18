@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/margin-sample/static/css/main.0e292fda.chunk.css",
-    "main.js": "/margin-sample/static/js/main.ffa9831e.chunk.js",
-    "main.js.map": "/margin-sample/static/js/main.ffa9831e.chunk.js.map",
+    "main.js": "/margin-sample/static/js/main.e37e5977.chunk.js",
+    "main.js.map": "/margin-sample/static/js/main.e37e5977.chunk.js.map",
     "runtime-main.js": "/margin-sample/static/js/runtime-main.1b10d089.js",
     "runtime-main.js.map": "/margin-sample/static/js/runtime-main.1b10d089.js.map",
     "static/js/2.42bb5c80.chunk.js": "/margin-sample/static/js/2.42bb5c80.chunk.js",
     "static/js/2.42bb5c80.chunk.js.map": "/margin-sample/static/js/2.42bb5c80.chunk.js.map",
     "index.html": "/margin-sample/index.html",
-    "precache-manifest.7171aadb200273c4c826da685e3d0876.js": "/margin-sample/precache-manifest.7171aadb200273c4c826da685e3d0876.js",
+    "precache-manifest.144866786bc75722aa70384c6affd4ec.js": "/margin-sample/precache-manifest.144866786bc75722aa70384c6affd4ec.js",
     "service-worker.js": "/margin-sample/service-worker.js",
     "static/css/main.0e292fda.chunk.css.map": "/margin-sample/static/css/main.0e292fda.chunk.css.map",
     "static/js/2.42bb5c80.chunk.js.LICENSE.txt": "/margin-sample/static/js/2.42bb5c80.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.1b10d089.js",
     "static/js/2.42bb5c80.chunk.js",
     "static/css/main.0e292fda.chunk.css",
-    "static/js/main.ffa9831e.chunk.js"
+    "static/js/main.e37e5977.chunk.js"
   ]
 }
