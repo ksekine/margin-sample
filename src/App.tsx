@@ -32,6 +32,14 @@ const Nav = styled.div`
   }
 `;
 
+const NavContainer = styled.div`
+  padding: 16px;
+
+  @media ${device.laptop} {
+    padding: 40px 30px;
+  }
+`;
+
 const Main = styled.main`
   @media ${device.laptop} {
     width: 100%;
@@ -44,6 +52,7 @@ const Main = styled.main`
 const MainContainer = styled.div`
   margin-right: 16px;
   margin-left: 16px;
+
   @media ${device.laptop} {
     margin-left: 40px;
     margin-right: 40px;
@@ -56,8 +65,11 @@ const App: React.FC = () => {
       <Router>
         <Enclosure>
           <Nav>
-            <Navigation />
+            <NavContainer>
+              <Navigation />
+            </NavContainer>
           </Nav>
+
           <Main>
             <MainContainer>
               <Switch>

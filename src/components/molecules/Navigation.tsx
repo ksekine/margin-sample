@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { device } from "../../styles";
-import githubIcon from "../../imgs/GitHub-Mark-120px-plus.png";
-import closeIcon from "../../imgs/close.svg";
-import menuIcon from "../../imgs/menu.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const NavContainer = styled.div`
+const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
 
@@ -15,41 +16,38 @@ const NavContainer = styled.div`
   }
 `;
 
-const Header = styled.header`
+const Header = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
+
+  @media ${device.laptop} {
+    margin-bottom: 40px;
+  }
 `;
 
 const ProjectName = styled.h2`
   margin: 0px;
-  padding: 20px 16px;
   font-weight: 500;
   font-size: 20px;
-
-  @media ${device.laptop} {
-    padding-top: 40px;
-    padding-left: 30px;
-    padding-bottom: 40px;
-  }
+  padding-right: 20px;
 `;
 
-interface MenuButtonProps {
-  menuIcon: string;
-  closeIcon: string;
-}
-
-const MenuButton = styled.button<MenuButtonProps>`
-  background: ${(props) => `url(${props.menuIcon})`} no-repeat right;
-  width: 30px;
-  height: 30px;
+const MenuButton = styled.button`
+  width: 100%;
+  text-align: right;
 
   @media ${device.laptop} {
     display: none;
   }
 `;
 
-const Nav = styled.nav`
-  display: none;
+interface NavProps {
+  open: boolean;
+}
+
+const Nav = styled.nav<NavProps>`
+  display: ${(props) => (props.open ? "inline" : "none")};
 
   @media ${device.laptop} {
     display: inline;
@@ -57,7 +55,8 @@ const Nav = styled.nav`
 `;
 
 const Ul = styled.ul`
-  padding-left: 30px;
+  padding: 0px;
+  margin-bottom: 0px;
 `;
 
 const List = styled.li`
@@ -67,18 +66,30 @@ const List = styled.li`
 
 const Navigation: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
-  console.log(typeof menuIcon);
+  const onClick = () => {
+    setOpen(!open);
+  };
 
   return (
-    <NavContainer>
-      <Header>
-        <ProjectName>FX support</ProjectName>
-        <a href="https://github.com/kz665432/margin-sample">
-          <img src={githubIcon} height="30px" />
-        </a>
-      </Header>
-      <MenuButton menuIcon={menuIcon} closeIcon={closeIcon} />
-      <Nav>
+    <>
+      <HeaderContainer>
+        <Header>
+          <ProjectName>FX support</ProjectName>
+          <a href="https://github.com/kz665432/margin-sample">
+            <FontAwesomeIcon icon={faGithub} size="2x" />
+          </a>
+        </Header>
+
+        <MenuButton onClick={onClick}>
+          {open ? (
+            <FontAwesomeIcon icon={faTimes} size="2x" />
+          ) : (
+            <FontAwesomeIcon icon={faBars} size="2x" />
+          )}
+        </MenuButton>
+      </HeaderContainer>
+
+      <Nav open={open}>
         <Ul>
           <List>
             <Link to="/margin-sample">証拠金維持率計算</Link>
@@ -88,7 +99,7 @@ const Navigation: React.FC = () => {
           </List>
         </Ul>
       </Nav>
-    </NavContainer>
+    </>
   );
 };
 
