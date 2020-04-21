@@ -36,6 +36,9 @@ const ProjectName = styled.h2`
 const MenuButton = styled.button`
   width: 100%;
   text-align: right;
+  background-color: inherit;
+  border: none;
+  outline: none;
 
   @media ${device.laptop} {
     display: none;
