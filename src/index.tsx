@@ -1,12 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { myTheme } from "./styles";
+import { myTheme, device } from "./styles";
 
 const MyGlobalStyle = createGlobalStyle`
+  html {
+    font-size: 14px;
+
+    @media ${device.tablet} {
+      font-size: 16px;
+    }
+  }
+
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI,
@@ -15,7 +22,6 @@ const MyGlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
-    font-size: 16px;
   }
 
   code {

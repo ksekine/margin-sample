@@ -33,16 +33,19 @@ const ProjectName = styled.h2`
   padding-right: 20px;
 `;
 
-const MenuButton = styled.button`
+const ButtonContainer = styled.div`
   width: 100%;
   text-align: right;
-  background-color: inherit;
-  border: none;
-  outline: none;
 
   @media ${device.laptop} {
     display: none;
   }
+`;
+
+const MenuButton = styled.button`
+  background-color: inherit;
+  border: none;
+  outline: none;
 `;
 
 interface NavProps {
@@ -83,13 +86,15 @@ const Navigation: React.FC = () => {
           </a>
         </Header>
 
-        <MenuButton onClick={onClick}>
-          {open ? (
-            <FontAwesomeIcon icon={faTimes} size="2x" />
-          ) : (
-            <FontAwesomeIcon icon={faBars} size="2x" />
-          )}
-        </MenuButton>
+        <ButtonContainer>
+          <MenuButton onClick={onClick}>
+            {open ? (
+              <FontAwesomeIcon icon={faTimes} size="2x" />
+            ) : (
+              <FontAwesomeIcon icon={faBars} size="2x" />
+            )}
+          </MenuButton>
+        </ButtonContainer>
       </HeaderContainer>
 
       <Nav open={open}>
