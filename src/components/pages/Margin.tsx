@@ -195,6 +195,7 @@ const Margin: React.FC = () => {
               name="execRate"
               variant="outlined"
               type="number"
+              inputProps={{step: 0.001}}
             />
             <ErrorContainer>
               {errors.execRate && <div>数値を入力してください</div>}
@@ -208,6 +209,7 @@ const Margin: React.FC = () => {
               name="quantity"
               variant="outlined"
               type="number"
+              inputProps={{step: 0.001}}
             />
             <ErrorContainer>
               {errors.quantity && <div>数値を入力してください</div>}
